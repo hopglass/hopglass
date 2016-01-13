@@ -1,6 +1,10 @@
 {
-  "dataPath": "https://map.luebeck.freifunk.net/data/",
-  "siteName": "Freifunk Lübeck",
+  "dataPath": [
+    "http://map.ffgl.eu/data/",
+    "http://karte.ffdus.de/data/",
+    "http://karte.freifunk-iserlohn.de/data/"
+  ],
+  "siteName": "Freifunk Fluss",
   "mapSigmaScale": 0.5,
   "showContact": true,
   "maxAge": 14,
@@ -19,9 +23,40 @@
     }
   ],
   "siteNames": [
-    { "site": "ffhl", "name": "Lübeck" },
-    { "site": "ffeh", "name": "Entenhausen" },
-    { "site": "ffgt", "name": "Gothamcity" },
-    { "site": "ffal", "name": "Atlantis" }
+    { "site": "ffgl-bcd", "name": "Burscheid" },
+    { "site": "ffgl-bgl", "name": "Bergisch Gladbach" },
+    { "site": "ffgl-lln", "name": "Leichlingen" },
+    { "site": "ffgl-ode", "name": "Odenthal" },
+    { "site": "ffgl-ovr", "name": "Overath" },
+    { "site": "ffgl-rrh", "name": "Rösrath" },
+    { "site": "ffdus", "name": "Flingern" }
+    { "site": "ffis", "name": "Iserlohn" }
+  ],
+  "nodeCharts": [
+    {
+      "name": "Statistik",
+      "metrics": [
+        {
+          "id": "clients",
+          "color": "#1566A9",
+          "label": "Clients",
+          "query": "sum(statistics_clients_total{nodeid=%22{{NODE_ID}}%22})"
+        },
+        {
+          "id": "load",
+          "color": "1566A9",
+          "label": "Systemlast",
+          "query": "sum(statistics_loadavg{nodeid=%22{{NODE_ID}}%22})"
+        },
+        {
+          "id": "rx",
+          "color": "#1566A9",
+          "label": "Traffic (RX, kbps)",
+          "query": "sum(rate(statistics_traffic_rx_bytes{nodeid=%22{{NODE_ID}}%22}[30m])/125)"
+        }
+      ],
+      "defaultMetric": "clients",
+      "url": "https://prometheus.map.eulenfunk.de/api/v1/query_range"
+    }
   ]
 }
