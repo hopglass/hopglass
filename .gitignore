@@ -3,3 +3,4 @@ node_modules/
 build/
 .sass-cache/
 config.js
+.DS_Store
