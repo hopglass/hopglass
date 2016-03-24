@@ -172,6 +172,43 @@ you can use the case-sensitive template strings `{SOURCE}` and `{TARGET}`.
       }
     ]
 
+## nodeImg (array, optional)
+![](doc/routerpic.png)
+
+This option allows to show router-pictures depending on following case-sensitive parameters:
+
+- `thumbnail` absolute or relative URL to router image
+- `caption` is shown, if `thumbnail` is not present
+
+To insert current node-id in either `href`, `thumbnail` or `caption`
+you can use the case-sensitive template string `{NODE_ID}`.
+
+Examples for `hwImg`:
+
+`on Server`
+    
+      "hwImg": [
+        { "thumbnail": "nodes/{MODELHASH}.png",
+          "caption": "Knoten {MODELHASH}"
+        }
+      ]
+
+`via Github`
+
+      "hwImg": [
+        { "thumbnail": "https://cdn.rawgit.com/Moorviper/meshviewer_hwpics/master/nodes/{MODELHASH}.svg",
+          "caption": "Knoten {MODELHASH}"
+        }
+      ]
+
+The pictures have to be names as the Hash of the String 
+
+      566104371 as example for a TP-Link wdr-3600 V1
+
+To get the hash of a modelname use:
+
+      https://meshdata.shivering-isles.com
+
 ## siteNames (array, optional)
 
 In this array name definitions for site statistics and node info can be saved. This requires one object for each site code. This object must contain:
