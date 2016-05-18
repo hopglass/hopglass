@@ -44,7 +44,7 @@ $buttondistance: 12pt;
   margin: 0;
   list-style: none;
   display: flex;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   @include shadow(1);
 }
 
