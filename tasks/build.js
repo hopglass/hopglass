@@ -43,11 +43,11 @@ module.exports = function (grunt) {
       },
       ionicons: {
         src: ["fonts/*",
-          "css/ionicons.min.css"
+          "hopglass-icons.css"
         ],
         expand: true,
         dest: "build/",
-        cwd: "bower_components/ionicons/"
+        cwd: "assets/icons/"
       },
       leafletImages: {
         src: ["images/*"],
