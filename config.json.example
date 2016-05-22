@@ -6,16 +6,29 @@
   "maxAge": 14,
   "mapLayers": [
     {
-      "name": "OpenStreetMap.HOT"
+      "name": "OpenStreetMap.HOT",
+      "url": "//{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
     },
     {
-      "name": "Stamen.TonerLite"
+      "name": "Esri.WorldImagery"
     }
   ],
   "siteNames": [
-    { "site": "ffhl", "name": "Lübeck" },
-    { "site": "ffeh", "name": "Entenhausen" },
-    { "site": "ffgt", "name": "Gothamcity" },
-    { "site": "ffal", "name": "Atlantis" }
+    {
+      "site": "ffhl",
+      "name": "Lübeck"
+    },
+    {
+      "site": "ffeh",
+      "name": "Entenhausen"
+    },
+    {
+      "site": "ffgt",
+      "name": "Gothamcity"
+    },
+    {
+      "site": "ffal",
+      "name": "Atlantis"
+    }
   ]
 }
