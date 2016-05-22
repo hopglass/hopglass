@@ -7,7 +7,7 @@ require.config({
     "chroma-js": "../bower_components/chroma-js/chroma.min",
     "moment": "../bower_components/moment/min/moment-with-locales.min",
     "tablesort": "../bower_components/tablesort/tablesort.min",
-    "tablesort.numeric": "../bower_components/tablesort/src/sorts/tablesort.numeric",
+    "tablesort.number": "../bower_components/tablesort/src/sorts/tablesort.number",
     "d3": "../bower_components/d3/d3.min",
     "numeral": "../bower_components/numeraljs/min/numeral.min",
     "numeral-intl": "../bower_components/numeraljs/min/languages.min",
@@ -26,7 +26,7 @@ require.config({
       deps: ["numeral"],
       exports: "numeral"
     },
-    "tablesort.numeric": ["tablesort"],
+    "tablesort.number": ["tablesort"],
     "helper": ["numeral-intl"]
   }
 });
