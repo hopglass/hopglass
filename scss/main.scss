@@ -121,6 +121,7 @@ table.attributes td {
     @include shadow(2);
     background: rgba(255, 255, 255, 0.97);
     border-radius: 2px;
+    padding-bottom: 30px;
   }
 
   .container.hidden {
