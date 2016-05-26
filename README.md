@@ -54,6 +54,11 @@ Use `grunt serve` for development.
 
 Copy `config.json.example` to `build/config.json` and change it to match your community.
 
+
+## Customize style
+
+Start your development and edit files in `scss/custom/`. Additional information in comments.
+
 ## dataPath (string/array)
 
 `dataPath` can be either a string containing the address of a [HopGlass Server](https://github.com/plumpudding/hopglass-server) or an array containing multiple addresses.
