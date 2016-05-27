@@ -212,7 +212,7 @@ function wifiChannelAlias(ch) {
     "132" :"5660 MHz (DFS) !!",
     "136" :"5680 MHz (DFS) !!",
     "140" :"5700 MHz (DFS) !!"
-  };
+  }
   if (!(ch in chlist))
     return ""
   else
