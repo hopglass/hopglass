@@ -43,7 +43,6 @@
       "sortByKey": false,
       "subtract": false,
       "sum": false,
-      "wifiChannelAlias": true,
       "trueDefault": false
     }
   }
