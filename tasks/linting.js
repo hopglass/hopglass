@@ -31,8 +31,8 @@ module.exports = function (grunt) {
         src: ["Gruntfile.js", "tasks/*.js"]
       }
     }
-  })
+  });
 
-  grunt.loadNpmTasks("grunt-check-dependencies")
-  grunt.loadNpmTasks("grunt-eslint")
-}
+  grunt.loadNpmTasks("grunt-check-dependencies");
+  grunt.loadNpmTasks("grunt-eslint");
+};
