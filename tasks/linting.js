@@ -13,15 +13,12 @@ module.exports = function (grunt) {
     },
     eslint: {
       options: {
+        extends: [
+          "defaults/configurations/eslint"
+	],
         rules: {
-          "semi": [2, "never"],
-          "curly": [2, "multi"],
-          "strict": [2, "never"],
-          "no-multi-spaces": 0,
-          "no-new": 0,
-          "no-shadow": 0,
-          "no-use-before-define": [1, "nofunc"],
-          "no-underscore-dangle": 0
+          "semi": [2, "always"],
+          "no-undef": 0
         }
       },
       sources: {
