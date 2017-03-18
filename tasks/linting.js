@@ -12,15 +12,6 @@ module.exports = function (grunt) {
       npm: {}
     },
     eslint: {
-      options: {
-        extends: [
-          "defaults/configurations/eslint"
-	],
-        rules: {
-          "semi": [2, "always"],
-          "no-undef": 0
-        }
-      },
       sources: {
         src: ["app.js", "!Gruntfile.js", "lib/**/*.js"]
       },
