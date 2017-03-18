@@ -4,4 +4,3 @@ build/
 .sass-cache/
 config.json
 .idea/
-.eslintrc
