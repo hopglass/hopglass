@@ -409,6 +409,7 @@ table {
     display: inline-block;
     height: 1.4em;
     background: rgba(85, 128, 32, 0.8);
+    overflow: hidden;
   }
 
   label {
@@ -419,6 +420,14 @@ table {
     right: 0.5em;
     top: 0.1em;
   }
+}
+
+.bar > span > span {
+  left: 0.5em;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+  background: none !important;
 }
 
 .proportion th {
