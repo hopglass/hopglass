@@ -1,4 +1,5 @@
 language: node_js
+node_js: node
 before_install:
   - gem install sass
   - npm install -g grunt-cli
