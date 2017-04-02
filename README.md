@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/plumpudding/hopglass.svg?branch=master)](https://travis-ci.org/plumpudding/hopglass)
-
 # HopGlass
 
 HopGlass is a frontend for the [HopGlass Server](https://github.com/plumpudding/hopglass-server).
