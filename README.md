@@ -182,7 +182,7 @@ In this array name definitions for site statistics and node info can be saved. T
 - `site` the site code
 - `name` the defined written name for this site code
 
-If neither `siteNames` nor `showSites` are set, site statistics and node info won't be displayed
+If `siteNames` is not set, site-related statistics and node info won't be displayed.
 
 Example for `siteNames`:
 
@@ -191,4 +191,21 @@ Example for `siteNames`:
       { "site": "ffeh", "name": "Entenhausen" ),
       { "site": "ffgt", "name": "Gothamcity" },
       { "site": "ffal", "name": "Atlantis" }
+    ]
+
+## domainNames (array, optional)
+
+This array contains definitions for [Gluon domains](https://gluon.readthedocs.io/en/v2018.1.x/features/multidomain.html).
+This requires one object for each domain code. This object must contain:
+
+- `domain` the domain code
+- `name` the defined written name for this domain code
+
+If `domainNames` is not set, domain-related statistics and node info won't be displayed.
+
+Example for `domainNames`:
+
+    "domainNames": [
+      { "domain": "ffal-ost", "name": "Atlantis-Ost" },
+      { "domain": "ffal-west", "name": "Atlantis-West" }
     ]
