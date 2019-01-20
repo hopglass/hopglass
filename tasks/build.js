@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
   grunt.config.merge({
-    bowerdir: "bower_components",
+    nodedir: "node_modules",
     copy: {
       html: {
         options: {
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         src: ["es6-shim/es6-shim.min.js",
           "es6-shim/es6-shim.map"],
         expand: true,
-        cwd: "bower_components/",
+        cwd: "node_modules/",
         dest: "build/vendor/"
       },
       robotoSlab: {
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
              ],
         expand: true,
         dest: "build/",
-        cwd: "bower_components/roboto-slab-fontface"
+        cwd: "node_modules/roboto-slab-fontface"
       },
       roboto: {
         src: [ "fonts/*",
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
              ],
         expand: true,
         dest: "build/",
-        cwd: "bower_components/roboto-fontface"
+        cwd: "node_modules/roboto-fontface"
       },
       ionicons: {
         src: [ "fonts/*",
@@ -47,13 +47,13 @@ module.exports = function(grunt) {
              ],
         expand: true,
         dest: "build/",
-        cwd: "bower_components/ionicons/"
+        cwd: "node_modules/ionicons/"
       },
       leafletImages: {
         src: [ "images/*" ],
         expand: true,
         dest: "build/",
-        cwd: "bower_components/leaflet/dist/"
+        cwd: "node_modules/leaflet/dist/"
       }
     },
     sass: {
@@ -84,31 +84,18 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          "build/style.css": [ "bower_components/leaflet/dist/leaflet.css",
-                               "bower_components/Leaflet.label/dist/leaflet.label.css",
+          "build/style.css": [ "node_modules/leaflet/dist/leaflet.css",
+                               "node_modules/leaflet-label/dist/leaflet.label.css",
                                "style.css"
                              ]
         }
       }
     },
-    "bower-install-simple": {
-        options: {
-          directory: "<%=bowerdir%>",
-          color: true,
-          interactive: false,
-          production: true
-        },
-        "prod": {
-          options: {
-            production: true
-          }
-        }
-      },
     requirejs: {
       compile: {
         options: {
           baseUrl: "lib",
-          name: "../bower_components/almond/almond",
+          name: "../node_modules/almond/almond",
           mainConfigFile: "app.js",
           include: "../app",
           wrap: true,
@@ -119,7 +106,6 @@ module.exports = function(grunt) {
     }
   })
 
-  grunt.loadNpmTasks("grunt-bower-install-simple")
   grunt.loadNpmTasks("grunt-contrib-copy")
   grunt.loadNpmTasks("grunt-contrib-requirejs")
   grunt.loadNpmTasks("grunt-sass")

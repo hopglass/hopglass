@@ -14,8 +14,7 @@ HopGlass is a frontend for the [HopGlass Server](https://github.com/hopglass/hop
 
 # Dependencies
 
-- npm
-- bower
+- yarn (recommended) or npm
 - grunt-cli
 - Sass (>= 3.2)
 

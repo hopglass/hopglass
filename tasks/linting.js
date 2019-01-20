@@ -4,11 +4,6 @@ module.exports = function (grunt) {
       options: {
         install: true
       },
-      bower: {
-        options: {
-          packageManager: "bower"
-        }
-      },
       npm: {}
     },
     eslint: {
