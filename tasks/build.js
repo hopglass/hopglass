@@ -59,7 +59,8 @@ module.exports = function(grunt) {
     sass: {
       options: {
         sourceMap: true,
-        outputStyle: "compressed"
+        outputStyle: "compressed",
+        implementation: require("dart-sass")
       },
       dist: {
         files: {
