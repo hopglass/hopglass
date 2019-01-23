@@ -1,5 +1,6 @@
 {
   "name": "hopglass",
+  "version": "1.0.0",
   "scripts": {
     "test": "node -e \"require('grunt').cli()\" '' clean lint"
   },
