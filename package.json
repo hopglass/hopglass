@@ -25,6 +25,7 @@
     "almond": "^0.3.3",
     "chroma-js": "^0.7.8",
     "d3": "^3.5.17",
+    "ionicons": "^2.0.1",
     "leaflet": "^0.7.7",
     "leaflet-label": "^0.2.1-0",
     "leaflet-providers": "^1.5.0",
@@ -32,6 +33,7 @@
     "numeraljs": "^1.5.6",
     "rbush": "^1.4.3",
     "requirejs": "^2.3.2",
+    "roboto-fontface": "^0.10.0",
     "tablesort": "3.0.2",
     "virtual-dom": "^2.1.1"
   },

@@ -25,21 +25,15 @@ module.exports = function(grunt) {
         cwd: "node_modules/",
         dest: "build/vendor/"
       },
-      robotoSlab: {
-        src: [ "fonts/*",
-               "roboto-slab-fontface.css"
-             ],
-        expand: true,
-        dest: "build/",
-        cwd: "node_modules/roboto-slab-fontface"
-      },
       roboto: {
-        src: [ "fonts/*",
-               "roboto-fontface.css"
+        src: [ "fonts/roboto/*",
+               "fonts/roboto-slab/*",
+               "css/roboto/roboto-fontface.css",
+               "css/roboto-slab/roboto-slab-fontface.css"
              ],
         expand: true,
         dest: "build/",
-        cwd: "node_modules/roboto-fontface"
+        cwd: "node_modules/roboto-fontface/"
       },
       ionicons: {
         src: [ "fonts/*",
