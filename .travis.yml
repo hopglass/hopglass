@@ -1,9 +1,7 @@
 language: node_js
-node_js:
+node_js
   - "lts/*"
-before_install:
-  - gem install sass
-  - npm install -g grunt-cli
+  - "node"
 install:
-  - npm install
-script: grunt
+  - yarn
+script: node_modules/.bin/grunt

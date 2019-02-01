@@ -1,6 +1,6 @@
 ({
     baseUrl: "lib",
-    name: "../bower_components/almond/almond",
+    name: "../node_modules/almond/almond",
     mainConfigFile: "app.js",
     include: "../app",
     wrap: true,

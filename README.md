@@ -14,29 +14,32 @@ HopGlass is a frontend for the [HopGlass Server](https://github.com/hopglass/hop
 
 # Dependencies
 
-- npm
-- bower
-- grunt-cli
-- Sass (>= 3.2)
+- NodeJS
+- yarn (recommended) or npm
 
 # Installing dependencies
 
 Install npm package-manager. On Debian-like systems run:
 
-    sudo apt-get install npm
+    sudo apt-get install nodejs
 
-On Mac you have to install only npm via brew and sass
+**Note:** The official Debian packages for NodeJS are quite old, you might want to check at [NodeSource](https://github.com/nodesource/distributions/blob/master/README.md) for current binaries installable with your distribution's package manager.
+
+On Mac you can install nodejs and yarn via brew:
 
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install node
-    npm install node-sass
+    brew install yarn
+
+On Arch Linux you can install nodejs and yarn via pacman:
+
+    sudo pacman -S nodejs yarn
 
 Execute these commands on your server as a normal user to prepare the dependencies:
 
     git clone https://github.com/hopglass/hopglass
     cd hopglass
-    npm install
-    npm install grunt-cli
+    yarn install # or `npm install`
 
 # Building
 

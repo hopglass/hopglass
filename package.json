@@ -1,24 +1,41 @@
 {
   "name": "hopglass",
+  "version": "1.0.0",
   "scripts": {
     "test": "node -e \"require('grunt').cli()\" '' clean lint"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
-    "grunt": "^0.4.5",
+    "dart-sass": "^1.16.1",
+    "grunt": "^1.0.3",
     "grunt-check-dependencies": "^0.6.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-connect": "^0.8.0",
     "grunt-contrib-copy": "^0.5.0",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-sass": "^1.1.0",
-    "grunt-postcss": "^0.7.2",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^10.0.0",
-    "grunt-bower-install-simple": "^1.1.2",
-    "grunt-git-describe": "^2.3.2"
+    "grunt-git-describe": "^2.3.2",
+    "grunt-postcss": "^0.7.2",
+    "grunt-sass": "^3.0.2"
+  },
+  "dependencies": {
+    "almond": "^0.3.3",
+    "chroma-js": "^0.7.8",
+    "d3": "^3.5.17",
+    "ionicons": "^2.0.1",
+    "leaflet": "^0.7.7",
+    "leaflet-label": "^0.2.1-0",
+    "leaflet-providers": "^1.5.0",
+    "moment": "^2.23.0",
+    "numeraljs": "^1.5.6",
+    "rbush": "^1.4.3",
+    "requirejs": "^2.3.2",
+    "roboto-fontface": "^0.10.0",
+    "tablesort": "3.0.2",
+    "virtual-dom": "^2.1.1"
   },
   "eslintConfig": {
     "env": {
