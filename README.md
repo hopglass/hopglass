@@ -84,6 +84,8 @@ A list of objects describing map layers. Each object has at least `name`
 property and optionally `url` and `config` properties. If no `url` is supplied
 `name` is assumed to name a
 [Leaflet-provider](http://leaflet-extras.github.io/leaflet-providers/preview/).
+If no `maxZoom` was given in the `config` property, the leaflet default `maxZoom` 
+of 18 is assumed.
 
 ## fixedCenter (array, optional)
 
