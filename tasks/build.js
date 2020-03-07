@@ -18,13 +18,6 @@ module.exports = function(grunt) {
         expand: true,
         dest: "build/"
       },
-      vendorjs: {
-        src: ["es6-shim/es6-shim.min.js",
-          "es6-shim/es6-shim.map"],
-        expand: true,
-        cwd: "node_modules/",
-        dest: "build/vendor/"
-      },
       roboto: {
         src: [ "fonts/roboto/*",
                "fonts/roboto-slab/*",
