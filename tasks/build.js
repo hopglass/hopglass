@@ -5,7 +5,8 @@ module.exports = function(grunt) {
       html: {
         options: {
           process: function (content) {
-            return content.replace("#revision#", grunt.option("gitRevision"))
+            const placeholder = new RegExp("#revision#", "g")
+            return content.replace(placeholder, grunt.option("gitRevision"))
           }
         },
         src: ["*.html"],
