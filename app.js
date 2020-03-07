@@ -4,7 +4,7 @@ require.config({
     "leaflet": "../node_modules/leaflet/dist/leaflet",
     "leaflet.label": "../node_modules/leaflet-label/dist/leaflet.label",
     "leaflet.providers": "../node_modules/leaflet-providers/leaflet-providers",
-    "chroma-js": "../node_modules/chroma-js/chroma-light.min",
+    "chroma-js": "../node_modules/chroma-js/chroma.min",
     "moment": "../node_modules/moment/min/moment-with-locales.min",
     "tablesort": "../node_modules/tablesort/tablesort.min",
     "tablesort.numeric": "../node_modules/tablesort/src/sorts/tablesort.numeric",
