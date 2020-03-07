@@ -60,7 +60,9 @@
       "sortByKey": false,
       "subtract": false,
       "sum": false,
-      "trueDefault": false
+      "trueDefault": false,
+      "getClients": false,
+      "getClientColor": false
     }
   }
 }

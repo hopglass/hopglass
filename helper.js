@@ -226,3 +226,32 @@ function showStat(o, subst) {
   return p
 }
 
+function getClients(statistics) {
+  if (!statistics.clients) return []
+  var cableClients = Math.max(statistics.clients.total - statistics.clients.wifi, 0)
+  var wifiClients = Math.max(statistics.clients.wifi - statistics.clients.wifi24 - statistics.clients.wifi5, 0)
+  var wifi24Clients = statistics.clients.wifi24
+  var wifi5Clients = statistics.clients.wifi5
+
+  return [
+    { count: cableClients,  label: "Kabel",         color: "#E3A619" },
+    { count: wifiClients,   label: "Sonstige Wifi", color: "#D10E2A" },
+    { count: wifi24Clients, label: "2.4GHz",        color: "#DC0067" },
+    { count: wifi5Clients,  label: "5GHz",          color: "#0A9C92" },
+  ]
+}
+
+function getClientColor(statistics, i) {
+  var clients = getClients(statistics)
+  var sum = clients.map(function(c) {
+    return c.count
+  }).reduce(function(a, b) {
+    return a + b
+  }, 0)
+  var ret
+  for (var checking = 0; checking < clients.length; checking++) {
+    if (i < sum) ret = clients[checking].color;
+    sum -= clients[checking].count
+  }
+  return ret
+}
