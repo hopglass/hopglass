@@ -15,13 +15,13 @@ HopGlass is a frontend for the [HopGlass Server](https://github.com/hopglass/hop
 # Dependencies
 
 - NodeJS
-- yarn (recommended) or npm
+- yarn
 
 # Installing dependencies
 
-Install npm package-manager. On Debian-like systems run:
+On Debian-like systems run:
 
-    sudo apt-get install nodejs
+    sudo apt-get install nodejs yarn
 
 **Note:** The official Debian packages for NodeJS are quite old, you might want to check at [NodeSource](https://github.com/nodesource/distributions/blob/master/README.md) for current binaries installable with your distribution's package manager.
 
@@ -39,7 +39,7 @@ Execute these commands on your server as a normal user to prepare the dependenci
 
     git clone https://github.com/hopglass/hopglass
     cd hopglass
-    yarn install # or `npm install`
+    yarn install
 
 # Building
 
