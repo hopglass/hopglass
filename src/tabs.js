@@ -20,8 +20,8 @@ export default class Tabs {
     li.child.render(tab)
   }
 
-  switchTab() {
-    this.gotoTab(this)
+  switchTab(e) {
+    this.gotoTab(e.target)
 
     return false
   }
@@ -29,13 +29,13 @@ export default class Tabs {
   add(title, d) {
     const li = document.createElement("li")
     li.textContent = title
-    li.onclick = switchTab
+    li.onclick = this.switchTab.bind(this)
     li.child = d
     this.tabs.appendChild(li)
 
     let anyVisible = false
 
-    for (const i = 0; i < this.tabs.children.length; i++)
+    for (let i = 0; i < this.tabs.children.length; i++)
       if (this.tabs.children[i].classList.contains("visible")) {
         anyVisible = true
         break

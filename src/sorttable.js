@@ -2,6 +2,7 @@ import V from "virtual-dom"
 
 export default class SortTable {
   constructor(headings, sortIndex, renderRow) {
+    this.headings = headings
     this.sortIndex = sortIndex
     this.renderRow = renderRow
     this.sortReverse = false
@@ -24,8 +25,8 @@ export default class SortTable {
     const children = []
 
     if (this.data.length !== 0) {
-      const th = headings.map(function (d, i) {
-        const properties = { onclick: sortTableHandler(i),
+      const th = this.headings.map((d, i) => {
+        const properties = { onclick: this.sortTableHandler(i),
                            className: "sort-header"
                          }
 
@@ -35,9 +36,9 @@ export default class SortTable {
         return V.h("th", properties, d.name)
       })
 
-      const links = this.data.slice(0).sort(headings[this.sortIndex].sort)
+      const links = this.data.slice(0).sort(this.headings[this.sortIndex].sort)
 
-      if (headings[this.sortIndex].reverse ? !this.sortReverse : this.sortReverse)
+      if (this.headings[this.sortIndex].reverse ? !this.sortReverse : this.sortReverse)
         links = links.reverse()
 
       children.push(V.h("thead", V.h("tr", th)))

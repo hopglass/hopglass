@@ -45,10 +45,11 @@ export default class SimpleNodeList {
 
       const aClass = ["hostname", d.flags.online ? "online" : "offline"]
 
-      td1Content.push(V.h("a", { className: aClass.join(" "),
-                                 onclick: this.router.node(d),
-                                 href: "#!n:" + d.nodeinfo.node_id
-                               }, d.nodeinfo.hostname))
+      td1Content.push(V.h("a", {
+        className: aClass.join(" "),
+        onclick: this.router.node(d),
+        href: "#!n:" + d.nodeinfo.node_id
+      }, d.nodeinfo.hostname))
 
       if (has_location(d))
         td1Content.push(V.h("span", {className: "icon ion-location"}))

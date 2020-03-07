@@ -35,7 +35,7 @@ export default class DataDistributor {
     this.filteredData = nodeFilter.run(this.data)
 
     this.targets.forEach(t => {
-      t.setData(filteredData)
+      t.setData(this.filteredData)
     })
   }
 

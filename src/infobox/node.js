@@ -148,7 +148,7 @@ export default class Node {
       const a2 = document.createElement("a")
       a2.href = "#"
       a2.textContent = showTq(d.link)
-      a2.onclick = router.link(d.link)
+      a2.onclick = this.router.link(d.link)
       td3.appendChild(a2)
       tr.appendChild(td3)
 
@@ -156,7 +156,7 @@ export default class Node {
       const a3 = document.createElement("a")
       a3.href = "#"
       a3.textContent = d.link.type
-      a3.onclick = router.link(d.link)
+      a3.onclick = this.router.link(d.link)
       td4.appendChild(a3)
       tr.appendChild(td4)
 
@@ -164,7 +164,7 @@ export default class Node {
       const a4 = document.createElement("a")
       a4.href = "#"
       a4.textContent = showDistance(d.link)
-      a4.onclick = router.link(d.link)
+      a4.onclick = this.router.link(d.link)
       td5.appendChild(a4)
       td5.setAttribute("data-sort", d.link.distance !== undefined ? -d.link.distance : 1)
       tr.appendChild(td5)
@@ -469,7 +469,7 @@ export default class Node {
       const link = document.createElement("a")
       link.classList.add("hostname-link")
       link.href = "#"
-      link.onclick = router.node(target.node)
+      link.onclick = this.router.node(target.node)
       link.textContent = text
       return link
     }

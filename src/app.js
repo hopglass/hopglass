@@ -1,13 +1,14 @@
 import Router from "./router.js"
 import GUI from "./gui.js"
-import { getJSON } from "./helper.js"
+import { getJSON, limit, sortByKey, online, offline } from "./helper.js"
 import moment from "moment"
 import L from "leaflet"
 import numeral from "numeral"
+import numeralde from "numeral/languages/de.js"
 
 class App {
-  run(config) {
-    numeral.language("de")
+  constructor(config) {
+    numeral.language("de", numeralde)
     moment.locale("de")
 
     this.config = config
@@ -22,7 +23,7 @@ class App {
       urls.push(path + "graph.json")
     }
 
-    const update = () => Promise.all(urls.map(getJSON)).then(this.handleData)
+    const update = () => Promise.all(urls.map(getJSON)).then(this.handleData.bind(this))
 
     update()
       .then(d => {
@@ -58,7 +59,18 @@ class App {
       d.target += dataGraph.batadv.nodes.length
     }
 
-    for (const i = 0; i < data.length; ++i) {
+    const fillData = (node) => {
+      const position = dataNodes.nodeIds.indexOf(node.nodeinfo.node_id)
+      if(position === -1){
+        dataNodes.nodes.push(node)
+        dataNodes.nodeIds.push(node.nodeinfo.node_id)
+      }
+      else
+        if(node.flags.online === true)
+          dataNodes.nodes[position] = node
+    }
+
+    for (let i = 0; i < data.length; ++i) {
       let vererr
       if(i % 2)
         if (data[i].version !== 1) {
@@ -78,17 +90,6 @@ class App {
           data[i].nodes.forEach(fillData)
           dataNodes.timestamp = data[i].timestamp
         }
-    }
-
-    const fillData = (node) => {
-      const position = dataNodes.nodeIds.indexOf(node.nodeinfo.node_id)
-      if(position === -1){
-        dataNodes.nodes.push(node)
-        dataNodes.nodeIds.push(node.nodeinfo.node_id)
-      }
-      else
-        if(node.flags.online === true)
-          dataNodes.nodes[position] = node
     }
 
     const nodes = dataNodes.nodes.filter(d => {
@@ -231,5 +232,4 @@ class App {
   }
 }
 
-const app = new App()
-getJSON("config.json").then(app.run)
+getJSON("config.json").then(config => new App(config))

@@ -2,7 +2,7 @@ export default class Sidebar {
   constructor(el) {
     this.sidebar = document.createElement("div")
     this.sidebar.classList.add("sidebar")
-    el.appendChild(sidebar)
+    el.appendChild(this.sidebar)
 
     const button = document.createElement("button")
     this.sidebar.appendChild(button)
@@ -12,9 +12,9 @@ export default class Sidebar {
       sidebar.classList.toggle("hidden")
     }
 
-    container = document.createElement("div")
+    const container = document.createElement("div")
     container.classList.add("container")
-    this.sidebar.appendChild(this.container)
+    this.sidebar.appendChild(container)
   }
 
   getWidth() {

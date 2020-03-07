@@ -1,3 +1,5 @@
+import numeral from "numeral"
+
 export const get = (url) => {
   return new Promise(function(resolve, reject) {
     const req = new XMLHttpRequest()

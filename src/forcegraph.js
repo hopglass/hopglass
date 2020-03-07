@@ -23,16 +23,16 @@ export default class ForceGraph {
     this.unknownNodes = []
 
     this.draggableNode = d3.behavior.drag()
-                        .on("dragstart", dragstart)
-                        .on("drag", dragmove)
-                        .on("dragend", dragend)
+                        .on("dragstart", this.dragstart)
+                        .on("drag", this.dragmove)
+                        .on("dragend", this.dragend)
 
     this.el = document.createElement("div")
     this.el.classList.add("graph")
 
     this.zoomBehavior = d3.behavior.zoom()
                      .scaleExtent([1 / 3, 3])
-                     .on("zoom", onPanZoom)
+                     .on("zoom", this.onPanZoom)
                      .translate([this.sidebar.getWidth(), 0])
 
     this.canvas = d3.select(this.el)
@@ -165,15 +165,15 @@ export default class ForceGraph {
   panzoomReal(translate, scale) {
     this.screenRect = {
       left: -translate[0] / scale, top: -translate[1] / scale,
-      right: (canvas.width - translate[0]) / scale,
-      bottom: (canvas.height - translate[1]) / scale
+      right: (this.canvas.width - translate[0]) / scale,
+      bottom: (this.canvas.height - translate[1]) / scale
     }
 
-    requestAnimationFrame(redraw)
+    requestAnimationFrame(this.redraw.bind(this))
   }
 
   getSize() {
-    sidebarWidth = this.sidebar.getWidth()
+    const sidebarWidth = this.sidebar.getWidth()
     const width = this.el.offsetWidth - sidebarWidth
     const height = this.el.offsetHeight
 
@@ -182,7 +182,7 @@ export default class ForceGraph {
 
   panzoomTo(a, b) {
     const sidebarWidth = this.sidebar.getWidth()
-    const size = getSize()
+    const size = this.getSize()
 
     const targetWidth = Math.max(1, b[0] - a[0])
     const targetHeight = Math.max(1, b[1] - a[1])
@@ -492,7 +492,7 @@ export default class ForceGraph {
     this.canvas.style.height = this.el.offsetHeight + "px"
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
     this.ctx.scale(r, r)
-    requestAnimationFrame(redraw)
+    requestAnimationFrame(this.redraw.bind(this))
   }
 
   distance(ax, ay, bx, by) {

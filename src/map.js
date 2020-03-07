@@ -1,6 +1,6 @@
 import ClientLayer from "./map/clientlayer.js"
 import LabelsLayer from "./map/labelslayer.js"
-import d3 from "d3"
+import d3 from "d3/src/d3.js"
 import L from "leaflet"
 import moment from "moment"
 import RBush from "rbush"

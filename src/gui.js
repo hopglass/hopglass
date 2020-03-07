@@ -27,7 +27,7 @@ export default class GUI {
 
     this.fanout = new DataDistributor()
     this.fanoutUnfiltered = new DataDistributor()
-    this.fanoutUnfiltered.add(fanout)
+    this.fanoutUnfiltered.add(this.fanout)
 
     const loader = document.getElementsByClassName("loader")[0]
     loader.classList.add("hide")
@@ -59,31 +59,31 @@ export default class GUI {
     const overview = new Container()
     const meshstats = new Meshstats(config)
     const legend = new Legend()
-    const newnodeslist = new SimpleNodelist("new", "firstseen", router, "Neue Knoten")
-    const lostnodeslist = new SimpleNodelist("lost", "lastseen", router, "Verschwundene Knoten")
-    const nodelist = new Nodelist(router)
-    const linklist = new Linklist(linkScale, router)
-    const statistics = new Proportions(config, fanout)
+    const newnodeslist = new SimpleNodelist("new", "firstseen", this.router, "Neue Knoten")
+    const lostnodeslist = new SimpleNodelist("lost", "lastseen", this.router, "Verschwundene Knoten")
+    const nodelist = new Nodelist(this.router)
+    const linklist = new Linklist(this.linkScale, this.router)
+    const statistics = new Proportions(this.config, this.fanout)
     const about = new About()
 
-    fanoutUnfiltered.add(meshstats)
-    fanoutUnfiltered.add(newnodeslist)
-    fanoutUnfiltered.add(lostnodeslist)
-    fanout.add(nodelist)
-    fanout.add(linklist)
-    fanout.add(statistics)
+    this.fanoutUnfiltered.add(meshstats)
+    this.fanoutUnfiltered.add(newnodeslist)
+    this.fanoutUnfiltered.add(lostnodeslist)
+    this.fanout.add(nodelist)
+    this.fanout.add(linklist)
+    this.fanout.add(statistics)
 
-    sidebar.add(header)
+    this.sidebar.add(header)
     header.add(meshstats)
     header.add(legend)
 
     overview.add(newnodeslist)
     overview.add(lostnodeslist)
 
-    const filterGUI = new FilterGUI(fanout)
+    const filterGUI = new FilterGUI(this.fanout)
     header.add(filterGUI)
 
-    sidebar.add(tabs)
+    this.sidebar.add(tabs)
     tabs.add("Aktuelles", overview)
     tabs.add("Knoten", nodelist)
     tabs.add("Verbindungen", linklist)
@@ -112,7 +112,7 @@ export default class GUI {
   }
 
   addContent(K) {
-    removeContent()
+    this.removeContent()
 
     this.content = new K(this.config, this.linkScale, this.sidebar, this.router, this.buttons)
     this.content.render(this.contentDiv)
