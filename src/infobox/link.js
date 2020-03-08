@@ -1,3 +1,4 @@
+import { showTq, showDistance } from "../helper.js"
 import { html, render } from "lit-html"
 
 export default class Link {

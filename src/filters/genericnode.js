@@ -1,5 +1,6 @@
 import { html, render } from "lit-html"
 import { classMap } from "lit-html/directives/class-map.js"
+import { dictGet } from "../helper.js"
 
 export default class Filter {
   constructor(name, key, value, f) {
@@ -40,7 +41,7 @@ export default class Filter {
       <label @click=${this.clicked} class=${classMap({not: this.negate})}>
         ${this.name}
         <strong>
-          ${this.negate ? "¬" : ""} ${value}
+          ${this.negate ? "¬" : ""} ${this.value}
         </strong>
       </label>
     `, this.div)

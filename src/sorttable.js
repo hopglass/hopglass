@@ -42,11 +42,11 @@ export default class SortTable {
         links = links.reverse()
 
       children.push(V.h("thead", V.h("tr", th)))
-      children.push(V.h("tbody", links.map(this.renderRow)))
+      children.push(V.h("tbody", links.map(this.renderRow.bind(this))))
     }
 
     const elNew = V.h("table", children)
-    this.el = V.patch(this.el, V.diff(elLast, elNew))
+    this.el = V.patch(this.el, V.diff(this.elLast, elNew))
     this.elLast = elNew
   }
 

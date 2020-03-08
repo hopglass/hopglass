@@ -1,3 +1,5 @@
+import { sum, one, online } from "./helper.js"
+
 export default class Meshstats {
   constructor(config) {
     this.config = config
@@ -33,7 +35,7 @@ export default class Meshstats {
                         totalClients + " Client" + ( totalClients === 1 ? ", " : "s, " ) +
                         totalGateways + " Gateways"
 
-    this.timestamp.textContent = "Diese Daten sind von " + d.this.timestamp.format("LLLL") + "."
+    this.timestamp.textContent = "Diese Daten sind von " + d.timestamp.format("LLLL") + "."
   }
 
   render(el) {

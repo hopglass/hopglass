@@ -8,7 +8,7 @@ export default class DataDistributor {
   }
 
   remove(d) {
-    this.targets = targets.filter(e => d !== e)
+    this.targets = this.targets.filter(e => d !== e)
   }
 
   add(d) {

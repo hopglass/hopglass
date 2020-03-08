@@ -242,11 +242,7 @@ export const getClients = (statistics) => {
 
 export const getClientColor = (statistics, i) => {
   const clients = getClients(statistics)
-  const sum = clients.map(function(c) {
-    return c.count
-  }).reduce(function(a, b) {
-    return a + b
-  }, 0)
+  let sum = clients.map(c => c.count).reduce((a, b) => a + b, 0)
   let ret
   for (let checking = 0; checking < clients.length; checking++) {
     if (i < sum) ret = clients[checking].color;

@@ -1,5 +1,6 @@
 import SortTable from "./sorttable.js"
 import V from "virtual-dom"
+import { showTq, showDistance } from "./helper.js"
 
 export default class LinkList {
   constructor(linkScale, router) {
@@ -31,11 +32,11 @@ export default class LinkList {
 
     this.linkScale = linkScale
     this.router = router
-    this.table = new SortTable(headings, 2, this.renderRow)
+    this.table = new SortTable(headings, 2, this.renderRow.bind(this))
   }
 
   renderRow(d) {
-    const td1Content = [V.h("a", {href: "#", onclick: this.router.link(d)}, linkName(d))]
+    const td1Content = [V.h("a", {href: "#", onclick: this.router.link(d)}, this.linkName(d))]
 
     const td1 = V.h("td", td1Content)
     const td2 = V.h("td", {style: {color: this.linkScale(d.tq).hex()}}, showTq(d))

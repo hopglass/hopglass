@@ -13,9 +13,9 @@ const order = c => {
 
 // Based on dpkg code
 const vercomp = (a, b) => {
-  const apos = 0, bpos = 0
+  let apos = 0, bpos = 0
   while (apos < a.length || bpos < b.length) {
-    const firstDiff = 0
+    let firstDiff = 0
 
     while ((apos < a.length && !/^\d$/.test(a[apos])) || (bpos < b.length && !/^\d$/.test(b[bpos]))) {
       const ac = order(a[apos])

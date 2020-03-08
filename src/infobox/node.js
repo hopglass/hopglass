@@ -1,3 +1,4 @@
+import { showTq, showStat, showDistance, dictGet, has_location, attributeEntry, getClients } from "../helper.js"
 import { html, render } from "lit-html"
 import moment from "moment"
 import numeral from "numeral"
@@ -11,14 +12,14 @@ export default class Node {
         <h2>${d.nodeinfo.hostname}</h2>
       `}
       <table class="attributes">
-        ${hwImg ? attributeEntry(attributes, hwImg, d.nodeinfo.hostname) : ''}
+        ${hwImg ? attributeEntry(hwImg, d.nodeinfo.hostname) : ''}
 
         ${attributeEntry("Status", this.showStatus(d))}
         ${attributeEntry("Gateway", d.flags.gateway ? "ja" : null)}
         ${attributeEntry("Koordinaten", this.showGeoURI(d))}
 
         ${config.showContact ? html`
-          ${attributeEntry(attributes, "Kontakt", dictGet(d.nodeinfo, ["owner", "contact"]))}
+          ${attributeEntry("Kontakt", dictGet(d.nodeinfo, ["owner", "contact"]))}
         ` : ''}
 
         ${attributeEntry("Hardware",  dictGet(d.nodeinfo, ["hardware", "model"]))}
@@ -52,9 +53,9 @@ export default class Node {
     const top = document.createElement("div")
     top.id = "routerpicdiv"
     try {
-      config.hwImg.forEach(function(hwImg) {
+      config.hwImg.forEach(hwImg => {
         try {
-          top.appendChild(showNodeImg(hwImg, dictGet(d, ["nodeinfo", "hardware", "model"])))
+          top.appendChild(this.showNodeImg(hwImg, dictGet(d, ["nodeinfo", "hardware", "model"])))
         } catch (err) {
           console.log(err.message)
         }
@@ -67,7 +68,7 @@ export default class Node {
 
   getChannels(d) {
     if (!("airtime" in d.statistics)) return []
-    return d.statistics.airtime.sort(function(a, b) {
+    return d.statistics.airtime.sort((a, b) => {
       return a.frequency - b.frequency
     }).map(channel => {
       const mode = Math.floor(channel.frequency / 1000)
@@ -124,7 +125,7 @@ export default class Node {
 
     const tbody = document.createElement("tbody")
 
-    d.neighbours.forEach( function (d) {
+    d.neighbours.forEach(d => {
       const unknown = !(d.node)
       const tr = document.createElement("tr")
 
@@ -133,7 +134,7 @@ export default class Node {
       tr.appendChild(td1)
 
       const td2 = document.createElement("td")
-      td2.appendChild(createLink(d, router))
+      td2.appendChild(this.createLink(d, router))
 
       if (!unknown && has_location(d.node)) {
         const span = document.createElement("span")
@@ -180,36 +181,37 @@ export default class Node {
     return table
   }
 
+  showLatitude(d) {
+    const suffix = Math.sign(d) > -1 ? "' N" : "' S"
+    d = Math.abs(d)
+    let a = Math.floor(d)
+    const min = (d * 60) % 60
+    a = (a < 10 ? "0" : "") + a
+
+    return a + "° " + numeral(min).format("0.000") + suffix
+  }
+
+  showLongitude(d) {
+    const suffix = Math.sign(d) > -1 ? "' E" : "' W"
+    d = Math.abs(d)
+    let a = Math.floor(d)
+    const min = (d * 60) % 60
+    a = (a < 100 ? "0" + (a < 10 ? "0" : "") : "") + a
+
+    return a + "° " + numeral(min).format("0.000") + suffix
+  }
+
+
   showGeoURI(d) {
-    function showLatitude(d) {
-      const suffix = Math.sign(d) > -1 ? "' N" : "' S"
-      d = Math.abs(d)
-      const a = Math.floor(d)
-      const min = (d * 60) % 60
-      a = (a < 10 ? "0" : "") + a
-
-      return a + "° " + numeral(min).format("0.000") + suffix
-    }
-
-    function showLongitude(d) {
-      const suffix = Math.sign(d) > -1 ? "' E" : "' W"
-      d = Math.abs(d)
-      const a = Math.floor(d)
-      const min = (d * 60) % 60
-      a = (a < 100 ? "0" + (a < 10 ? "0" : "") : "") + a
-
-      return a + "° " + numeral(min).format("0.000") + suffix
-    }
-
     if (!has_location(d))
       return undefined
 
-    return function (el) {
+    return (el) => {
       const latitude = d.nodeinfo.location.latitude
       const longitude = d.nodeinfo.location.longitude
       const a = document.createElement("a")
-      a.textContent = showLatitude(latitude) + " " +
-                      showLongitude(longitude)
+      a.textContent = this.showLatitude(latitude) + " " +
+                      this.showLongitude(longitude)
 
       a.href = "geo:" + latitude + "," + longitude
       el.appendChild(a)
@@ -217,7 +219,7 @@ export default class Node {
   }
 
   showStatus(d) {
-    return function (el) {
+    return el => {
       el.classList.add(d.flags.unseen ? "unseen" : (d.flags.online ? "online" : "offline"))
       if (d.flags.online)
         el.textContent = "online, letzte Nachricht " + d.lastseen.fromNow() + " (" + d.lastseen.format("DD.MM.YYYY,  H:mm:ss") + ")"
@@ -240,7 +242,7 @@ export default class Node {
     const site = dictGet(d.nodeinfo, ["system", "site_code"])
     const rt = site
     if (config.siteNames)
-      config.siteNames.forEach( function (t) {
+      config.siteNames.forEach(t => {
         if(site === t.site)
           rt = t.name
       })
@@ -265,11 +267,11 @@ export default class Node {
     if (!d.flags.online)
       return undefined
 
-    const meshclients = getMeshClients(d)
-    resetMeshClients(d)
+    const meshclients = this.getMeshClients(d)
+    this.resetMeshClients(d)
     const before = "     ("
     const after = " in der lokalen Wolke)"
-    return function (el) {
+    return el => {
       el.appendChild(document.createTextNode(d.statistics.clients.total > 0 ? d.statistics.clients.total : "keine"))
       el.appendChild(document.createTextNode(before))
       el.appendChild(document.createTextNode(meshclients > 0 ? meshclients : "keine"))
@@ -294,7 +296,7 @@ export default class Node {
   }
 
   getMeshClients(node) {
-    const meshclients = 0
+    let meshclients = 0
     if (node.statistics && !isNaN(node.statistics.clients.total))
       meshclients = node.statistics.clients.total
 
@@ -305,9 +307,9 @@ export default class Node {
       return 0
 
     node.parsed = 1
-    node.neighbours.forEach(function (neighbour) {
+    node.neighbours.forEach(neighbour => {
       if (!neighbour.link.isVPN && neighbour.node)
-        meshclients += getMeshClients(neighbour.node)
+        meshclients += this.getMeshClients(neighbour.node)
     })
 
     return meshclients
@@ -319,21 +321,19 @@ export default class Node {
 
     node.parsed = 0
 
-    node.neighbours.forEach(function (neighbour) {
+    node.neighbours.forEach(neighbour => {
       if (!neighbour.link.isVPN && neighbour.node)
-        resetMeshClients(neighbour.node)
+        this.resetMeshClients(neighbour.node)
     })
-
-    return
   }
 
   showMeshClients(d) {
     if (!d.flags.online)
       return undefined
 
-    const meshclients = getMeshClients(d)
-    resetMeshClients(d)
-    return function (el) {
+    const meshclients = this.getMeshClients(d)
+    this.resetMeshClients(d)
+    return el => {
       el.appendChild(document.createTextNode(meshclients > 0 ? meshclients : "keine"))
       el.appendChild(document.createElement("br"))
     }
@@ -346,8 +346,8 @@ export default class Node {
 
     ips.sort()
 
-    return function (el) {
-      ips.forEach( function (ip, i) {
+    return el => {
+      ips.forEach((ip, i) => {
         const link = !ip.startsWith("fe80:")
 
         if (i > 0)
@@ -412,8 +412,8 @@ export default class Node {
     if (!("loadavg" in d.statistics))
       return undefined
 
-    return function (el) {
-      el.appendChild(showLoadBar("load-avg", d.statistics.loadavg))
+    return (el) => {
+      el.appendChild(this.showLoadBar("load-avg", d.statistics.loadavg))
     }
   }
 
@@ -421,12 +421,13 @@ export default class Node {
     if (!("memory_usage" in d.statistics))
       return undefined
 
-    return function (el) {
-      el.appendChild(showBar("memory-usage", d.statistics.memory_usage))
+    return (el) => {
+      el.appendChild(this.showBar("memory-usage", d.statistics.memory_usage))
     }
   }
 
   showAirtime(v) {
+    if (!v) return
     v.wait = v.busy - v.rx - v.tx
 
     const span = document.createElement("span")
@@ -456,7 +457,7 @@ export default class Node {
     label.textContent = Math.round(v.busy * 100) + " %"
     span.appendChild(label)
 
-    return function (el) {
+    return el => {
       el.appendChild(span)
     }
   }
@@ -469,7 +470,7 @@ export default class Node {
       const link = document.createElement("a")
       link.classList.add("hostname-link")
       link.href = "#"
-      link.onclick = this.router.node(target.node)
+      link.onclick = router.node(target.node)
       link.textContent = text
       return link
     }
@@ -485,11 +486,11 @@ export default class Node {
     const gw = dictGet(d.statistics, ["gateway"])
 
     if (!gw) return null
-    return function (el) {
-      const num = 0
+    return el => {
+      let num = 0
       while (gw && nh && gw.id !== nh.id && num < 10) {
         if (num !== 0) el.appendChild(document.createTextNode(" -> "))
-        el.appendChild(createLink(nh, router))
+        el.appendChild(this.createLink(nh, router))
         num++
         if (!nh.node || !nh.node.statistics) break
         if (!dictGet(nh.node.statistics, ["gateway"]) || !dictGet(nh.node.statistics, ["gateway"]).id) break
@@ -507,7 +508,7 @@ export default class Node {
         el.appendChild(document.createTextNode("..."))
       }
       if (num !== 0) el.appendChild(document.createTextNode(" -> "))
-      el.appendChild(createLink(gw, router))
+      el.appendChild(this.createLink(gw, router))
     }
   }
 
@@ -518,8 +519,8 @@ export default class Node {
 
     webpages.sort()
 
-    return function (el) {
-      webpages.forEach( function (webpage, i) {
+    return (el) => {
+      webpages.forEach((webpage, i) => {
         if (i > 0)
           el.appendChild(document.createElement("br"))
 
@@ -555,7 +556,7 @@ export default class Node {
       return document.createTextNode("Knotenname")
 
     let content, caption
-    const modelhash = model.split("").reduce(function(a, b) {
+    const modelhash = model.split("").reduce((a, b) => {
       a = ((a << 5) - a) + b.charCodeAt(0)
       return a & a
     }, 0)
@@ -564,7 +565,7 @@ export default class Node {
     content.id = "routerpicture"
     content.classList.add("nodeImg")
     content.src = o.thumbnail.replace("{MODELHASH}", modelhash)
-    content.onerror = function() {
+    content.onerror = () => {
       document.getElementById("routerpicdiv").outerHTML = "Knotenname"
     }
 

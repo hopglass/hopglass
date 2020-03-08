@@ -31,7 +31,7 @@ gulp.task("rollup", () => {
 		plugins: [
 			resolve(),
 			commonjs(),
-			terser(),
+			//terser(),
 		],
 		output: {
       sourceMap: true,

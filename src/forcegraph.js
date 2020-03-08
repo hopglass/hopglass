@@ -1,4 +1,5 @@
 import d3 from "d3"
+import { sum, localStorageTest, getClientColor } from "./helper.js"
 
 const MARGIN = 200
 const NODE_RADIUS = 15
@@ -23,24 +24,24 @@ export default class ForceGraph {
     this.unknownNodes = []
 
     this.draggableNode = d3.behavior.drag()
-                        .on("dragstart", this.dragstart)
-                        .on("drag", this.dragmove)
-                        .on("dragend", this.dragend)
+                        .on("dragstart", this.dragstart.bind(this))
+                        .on("drag", this.dragmove.bind(this))
+                        .on("dragend", this.dragend.bind(this))
 
     this.el = document.createElement("div")
     this.el.classList.add("graph")
 
     this.zoomBehavior = d3.behavior.zoom()
                      .scaleExtent([1 / 3, 3])
-                     .on("zoom", this.onPanZoom)
+                     .on("zoom", this.onPanZoom.bind(this))
                      .translate([this.sidebar.getWidth(), 0])
 
     this.canvas = d3.select(this.el)
                .attr("tabindex", 1)
-               .on("keypress", this.keyboardZoom)
+               .on("keypress", this.keyboardZoom.bind(this))
                .call(this.zoomBehavior)
                .append("canvas")
-               .on("click", this.onClick)
+               .on("click", this.onClick.bind(this))
                .call(this.draggableNode)
                .node()
 
@@ -51,8 +52,8 @@ export default class ForceGraph {
               .gravity(0.1)
               .linkDistance(d => d.o.isVPN ? 0 : LINK_DISTANCE)
               .linkStrength(d => d.o.isVPN ? 0 : Math.max(0.5, 1 / d.o.tq))
-              .on("tick", this.redraw)
-              .on("end", this.savePositions)
+              .on("tick", this.redraw.bind(this))
+              .on("end", this.savePositions.bind(this))
 
     window.addEventListener("resize", this.resizeCanvas)
 
@@ -64,7 +65,7 @@ export default class ForceGraph {
   }
 
   savePositions() {
-    if (!this.localStorageTest())
+    if (!localStorageTest())
       return
 
     const save = this.intNodes.map(d => {
@@ -81,7 +82,7 @@ export default class ForceGraph {
   }
 
   dragstart() {
-    const e = translateXY(d3.mouse(el))
+    const e = this.translateXY(d3.mouse(this.el))
 
     const nodes = this.intNodes.filter((d) => this.distancePoint(e, d) < NODE_RADIUS)
 
@@ -99,7 +100,7 @@ export default class ForceGraph {
 
   dragmove() {
     if (this.draggedNode) {
-      const e = translateXY(d3.mouse(this.el))
+      const e = this.translateXY(d3.mouse(this.el))
 
       this.draggedNode.px = e.x
       this.draggedNode.py = e.y
@@ -323,7 +324,7 @@ export default class ForceGraph {
     const r = window.devicePixelRatio
     const translate = this.zoomBehavior.translate()
     const scale = this.zoomBehavior.scale()
-    const links = this.intLinks.filter(this.visibleLinks)
+    const links = this.intLinks.filter(this.visibleLinks.bind(this))
 
     this.ctx.save()
     this.ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -367,7 +368,7 @@ export default class ForceGraph {
 
     // -- draw unknown nodes --
     this.ctx.beginPath()
-    this.unknownNodes.filter(this.visibleNodes).forEach(d => {
+    this.unknownNodes.filter(this.visibleNodes.bind(this)).forEach(d => {
       this.ctx.moveTo(d.x + nodeRadius, d.y)
       this.ctx.arc(d.x, d.y, nodeRadius, 0, 2 * Math.PI)
     })
@@ -382,18 +383,18 @@ export default class ForceGraph {
     this.ctx.save()
     this.ctx.scale(1 / scale / r, 1 / scale / r)
 
-    const nonUplinkNode = drawNode(nonUplinkColor, nodeRadius, scale, r)
-    this.nonUplinkNodes.filter(this.visibleNodes).forEach(d => {
+    const nonUplinkNode = this.drawNode(nonUplinkColor, nodeRadius, scale, r)
+    this.nonUplinkNodes.filter(this.visibleNodes.bind(this)).forEach(d => {
       this.ctx.drawImage(nonUplinkNode, scale * r * d.x - nonUplinkNode.width / 2, scale * r * d.y - nonUplinkNode.height / 2)
     })
 
-    const uplinkNode = drawNode(uplinkColor, nodeRadius, scale, r)
-    this.uplinkNodes.filter(this.visibleNodes).forEach(d => {
+    const uplinkNode = this.drawNode(uplinkColor, nodeRadius, scale, r)
+    this.uplinkNodes.filter(this.visibleNodes.bind(this)).forEach(d => {
       this.ctx.drawImage(uplinkNode, scale * r * d.x - uplinkNode.width / 2, scale * r * d.y - uplinkNode.height / 2)
     })
 
-    const unseenNode = drawNode(unseenColor, nodeRadius, scale, r)
-    this.unseenNodes.filter(this.visibleNodes).forEach(d => {
+    const unseenNode = this.drawNode(unseenColor, nodeRadius, scale, r)
+    this.unseenNodes.filter(this.visibleNodes.bind(this)).forEach(d => {
       this.ctx.drawImage(unseenNode, scale * r * d.x - unseenNode.width / 2, scale * r * d.y - unseenNode.height / 2)
     })
 
@@ -403,7 +404,7 @@ export default class ForceGraph {
     this.ctx.save()
     this.ctx.beginPath()
     if (scale > 0.9)
-      this.nodes.filter(this.visibleNodes).forEach(d => {
+      this.nodes.filter(this.visibleNodes.bind(this)).forEach(d => {
         const clients = d.o.node.statistics.clients.total
 
         if (clients === 0)
@@ -479,7 +480,7 @@ export default class ForceGraph {
 
     // -- draw labels --
     if (scale > 0.9)
-      this.intNodes.filter(this.visibleNodes).forEach(this.drawLabel)
+      this.intNodes.filter(this.visibleNodes.bind(this)).forEach(this.drawLabel.bind(this))
 
     this.ctx.restore()
   }
@@ -539,7 +540,7 @@ export default class ForceGraph {
     if (d3.event.defaultPrevented)
       return
 
-    const e = translateXY(d3.mouse(el))
+    const e = this.translateXY(d3.mouse(this.el))
 
     const nodes = this.intNodes.filter(d => this.distancePoint(e, d) < NODE_RADIUS)
 
@@ -623,7 +624,7 @@ export default class ForceGraph {
       if (d.o.node)
         this.nodesDict[d.o.node.nodeinfo.node_id] = d
 
-      const name = nodeName(d)
+      const name = this.nodeName(d)
 
       const offset = 5
       const lineWidth = 3
@@ -714,7 +715,7 @@ export default class ForceGraph {
   }
 
   resetView() {
-    highlight = undefined
+    this.highlight = undefined
     this.updateHighlight()
     this.doAnimation = true
   }
@@ -737,7 +738,7 @@ export default class ForceGraph {
     this.force = null
 
     if (this.el.parentNode)
-      this.el.parentNode.removeChild(el)
+      this.el.parentNode.removeChild(this.el)
   }
 
   render(d) {

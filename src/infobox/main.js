@@ -4,6 +4,7 @@ import Location from "./location"
 
 export default class Infobox {
   constructor(config, sidebar, router) {
+    this.config = config
     this.sidebar = sidebar
     this.router = router
   }
@@ -26,7 +27,7 @@ export default class Infobox {
 
     this.el.scrollIntoView(false)
     this.el.classList.add("infobox")
-    this.el.destroy = destroy
+    this.el.destroy = this.destroy
 
     const closeButton = document.createElement("button")
     closeButton.classList.add("close")
@@ -40,16 +41,16 @@ export default class Infobox {
 
   gotoNode(d) {
     this.create()
-    new Node(config, this.el, this.router, d)
+    new Node(this.config, this.el, this.router, d)
   }
 
   gotoLink(d) {
     this.create()
-    new Link(config, this.el, this.router, d)
+    new Link(this.config, this.el, this.router, d)
   }
 
   gotoLocation(d) {
     this.create()
-    new Location(config, this.el, this.router, d)
+    new Location(this.config, this.el, this.router, d)
   }
 }

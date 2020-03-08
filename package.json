@@ -5,6 +5,7 @@
     "test": "node -e \"require('grunt').cli()\" '' clean lint"
   },
   "dependencies": {
+    "@rollup/stream": "https://github.com/petabyteboy/stream",
     "chroma-js": "^2.1.0",
     "d3": "^3.5.17",
     "ionicons": "^2.0.1",
@@ -51,7 +52,6 @@
     "@csstools/postcss-sass": "^4.0.0",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "@rollup/stream": "https://github.com/petabyteboy/stream",
     "autoprefixer": "^9.7.4",
     "chokidar": "^3.3.1",
     "cssnano": "^4.1.10",

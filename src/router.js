@@ -1,3 +1,5 @@
+import { trueDefault } from "./helper.js"
+
 export default class router {
   constructor() {
     this.objects = { nodes: {}, links: {} }
@@ -92,7 +94,7 @@ export default class router {
         id = args[1]
         if (id in this.objects.nodes) {
           this.currentObject = { node: this.objects.nodes[id] }
-          gotoNode(this.objects.nodes[id])
+          this.gotoNode(this.objects.nodes[id])
           targetSet = true
         }
       }
@@ -101,7 +103,7 @@ export default class router {
         id = args[1]
         if (id in this.objects.links) {
           this.currentObject = { link: this.objects.links[id] }
-          gotoLink(this.objects.links[id])
+          this.gotoLink(this.objects.links[id])
           targetSet = true
         }
       }
@@ -113,12 +115,12 @@ export default class router {
   start() {
     this.running = true
 
-    if (!loadState(window.location.hash))
-      resetView(false)
+    if (!this.loadState(window.location.hash))
+      this.resetView(false)
 
     window.onpopstate = (d) => {
-      if (!loadState(d.state))
-        resetView(false)
+      if (!this.loadState(d.state))
+        this.resetView(false)
     }
   }
 
@@ -132,15 +134,15 @@ export default class router {
       if (!this.running)
         return
 
-      saveState()
+      this.saveState()
 
       if (!this.currentObject) {
-        resetView(false)
+        this.resetView(false)
         return
       }
 
       if ("node" in this.currentObject)
-        gotoNode(this.currentObject.node)
+        this.gotoNode(this.currentObject.node)
 
       if ("link" in this.currentObject)
         gotoLink(this.currentObject.link)
@@ -149,9 +151,9 @@ export default class router {
 
   node(d) {
     return () => {
-      if (gotoNode(d)) {
+      if (this.gotoNode(d)) {
         this.currentObject = { node: d }
-        saveState()
+        this.saveState()
       }
 
       return false
@@ -162,7 +164,7 @@ export default class router {
     return () => {
       if (gotoLink(d)) {
         this.currentObject = { link: d }
-        saveState()
+        this.saveState()
       }
 
       return false
@@ -170,7 +172,7 @@ export default class router {
   }
 
   reset() {
-    resetView()
+    this.resetView()
   }
 
   addTarget(d) {

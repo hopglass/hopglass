@@ -33,7 +33,7 @@ export default class GUI {
     loader.classList.add("hide")
 
     this.contentDiv = document.createElement("div")
-    this.contentDiv.classList.add("this.content")
+    this.contentDiv.classList.add("content")
     document.body.appendChild(this.contentDiv)
 
     this.sidebar = new Sidebar(document.body)

@@ -1,5 +1,6 @@
 import moment from "moment"
 import V from "virtual-dom"
+import { has_location } from "./helper.js"
 
 export default class SimpleNodeList {
   constructor(nodes, field, router, title) {
@@ -14,7 +15,7 @@ export default class SimpleNodeList {
     d.appendChild(this.el)
   }
 
-  setData() {
+  setData(data) {
     const list = data.nodes[this.nodes]
 
     if (list.length === 0) {

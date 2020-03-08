@@ -1,3 +1,4 @@
+import { has_location } from "./helper.js"
 import SortTable from "./sorttable.js"
 import V from "virtual-dom"
 import numeral from "numeral"
@@ -36,7 +37,7 @@ export default class NodeList {
       }
     ]
     this.router = router
-    this.table = new SortTable(headings, 0, this.renderRow)
+    this.table = new SortTable(headings, 0, this.renderRow.bind(this))
   }
 
   renderRow(d) {
@@ -53,7 +54,7 @@ export default class NodeList {
       td1Content.push(V.h("span", {className: "icon ion-location"}))
 
     const td1 = V.h("td", td1Content)
-    const td2 = V.h("td", showUptime(d.uptime))
+    const td2 = V.h("td", this.showUptime(d.uptime))
     const td3 = V.h("td", d.meshlinks.toString())
     const td4 = V.h("td", numeral("clients" in d.statistics ? d.statistics.clients.total : "").format("0,0"))
 
@@ -90,7 +91,7 @@ export default class NodeList {
   }
 
   showUptime(uptime) {
-    const s = ""
+    let s = ""
     uptime /= 3600
 
     if (uptime !== undefined)

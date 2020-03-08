@@ -1,3 +1,4 @@
+import { online, dictGet } from "./helper.js"
 import chroma from "chroma-js"
 import V from "virtual-dom"
 import numeral from "numeral"
@@ -46,7 +47,7 @@ export default class Proportions {
     const dict = {}
 
     nodes.forEach(d => {
-      const v = dictGet(d, key.slice(0))
+      let v = dictGet(d, key.slice(0))
 
       if (f !== undefined)
         v = f(v)
@@ -64,7 +65,7 @@ export default class Proportions {
     const dict = {}
 
     nodes.forEach(d => {
-      const v = dictGet(d, key.slice(0))
+      let v = dictGet(d, key.slice(0))
 
       if (f !== undefined)
         v = f(v)
@@ -91,7 +92,7 @@ export default class Proportions {
     if (!table.last)
       table.last = V.h("table")
 
-    const max = 0
+    let max = 0
     data.forEach(d => {
       if (d[1] > max)
         max = d[1]
@@ -99,17 +100,17 @@ export default class Proportions {
 
     const items = data.map(d => {
       const v = d[1] / max
-      const c1 = chroma.contrast(scale(v), "white")
-      const c2 = chroma.contrast(scale(v), "black")
+      const c1 = chroma.contrast(this.scale(v), "white")
+      const c2 = chroma.contrast(this.scale(v), "black")
 
       const filter = new Filter(name, d[2], d[0], d[3])
 
-      const a = V.h("a", { href: "#", onclick: addFilter(filter) }, d[0])
+      const a = V.h("a", { href: "#", onclick: this.addFilter(filter) }, d[0])
 
       const th = V.h("th", a)
       const td = V.h("td", V.h("span", {style: {
                                        width: Math.round(v * 100) + "%",
-                                       backgroundColor: scale(v).hex(),
+                                       backgroundColor: this.scale(v).hex(),
                                        color: c1 > c2 ? "white" : "black"
                                      }}, numeral(d[1]).format("0,0")))
 
@@ -130,22 +131,22 @@ export default class Proportions {
       nodeDict[d.nodeinfo.node_id] = d
     })
 
-    const statusDict = count(nodes, ["flags", "online"], d => {
+    const statusDict = this.count(nodes, ["flags", "online"], d => {
       return d ? "online" : "offline"
     })
-    const fwDict = count(nodes, ["nodeinfo", "software", "firmware", "release"])
-    const hwDict = count(nodes, ["nodeinfo", "hardware", "model"], d => {
+    const fwDict = this.count(nodes, ["nodeinfo", "software", "firmware", "release"])
+    const hwDict = this.count(nodes, ["nodeinfo", "hardware", "model"], d => {
       if (d) {
         d = d.replace(/\(r\)|\(tm\)/gi, "").replace(/AMD |Intel |TP-Link | CPU| Processor/g, "")
         if (d.indexOf("@") > 0) d = d.substring(0, d.indexOf("@"))
       }
       return d
     })
-    const geoDict = count(nodes, ["nodeinfo", "location"], d => {
+    const geoDict = this.count(nodes, ["nodeinfo", "location"], d => {
       return d && d.longitude && d.latitude ? "ja" : "nein"
     })
 
-    const autoDict = count(nodes, ["nodeinfo", "software", "autoupdater"], d => {
+    const autoDict = this.count(nodes, ["nodeinfo", "software", "autoupdater"], d => {
       if (d === null)
         return null
       else if (d.enabled)
@@ -154,11 +155,11 @@ export default class Proportions {
         return "(deaktiviert)"
     })
 
-    const uplinkDict = count(nodes, ["flags", "uplink"], d => {
+    const uplinkDict = this.count(nodes, ["flags", "uplink"], d => {
       return d ? "ja" : "nein"
     })
 
-    const gwNodesDict = count(onlineNodes, ["statistics", "gateway"], d => {
+    const gwNodesDict = this.count(onlineNodes, ["statistics", "gateway"], d => {
       if (d === null)
         return null
 
@@ -171,7 +172,7 @@ export default class Proportions {
       return d
     })
 
-    const gwClientsDict = countClients(onlineNodes, ["statistics", "gateway"], d => {
+    const gwClientsDict = this.countClients(onlineNodes, ["statistics", "gateway"], d => {
       if (d === null)
         return null
 
@@ -184,7 +185,7 @@ export default class Proportions {
       return d
     })
 
-    const siteDict = count(nodes, ["nodeinfo", "system", "site_code"], d => {
+    const siteDict = this.count(nodes, ["nodeinfo", "system", "site_code"], d => {
       const rt = d
       if (this.config.siteNames)
         this.config.siteNames.forEach(t => {
@@ -194,15 +195,15 @@ export default class Proportions {
       return rt
     })
 
-    fillTable("Status", this.statusTable, statusDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Firmware", this.fwTable, fwDict.sort((a, b) => vercomp(b[0], a[0])))
-    fillTable("Hardware", this.hwTable, hwDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Koordinaten", this.geoTable, geoDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Uplink", this.uplinkTable, uplinkDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Autom. Updates", this.autoTable, autoDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Gateway", this.gwNodesTable, gwNodesDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Gateway", this.gwClientsTable, gwClientsDict.sort((a, b) => b[1] - a[1]))
-    fillTable("Site", this.siteTable, siteDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Status", this.statusTable, statusDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Firmware", this.fwTable, fwDict.sort((a, b) => vercomp(b[0], a[0])))
+    this.fillTable("Hardware", this.hwTable, hwDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Koordinaten", this.geoTable, geoDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Uplink", this.uplinkTable, uplinkDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Autom. Updates", this.autoTable, autoDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Gateway", this.gwNodesTable, gwNodesDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Gateway", this.gwClientsTable, gwClientsDict.sort((a, b) => b[1] - a[1]))
+    this.fillTable("Site", this.siteTable, siteDict.sort((a, b) => b[1] - a[1]))
   }
 
   render(el) {

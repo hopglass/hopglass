@@ -8,13 +8,13 @@ export default class Sidebar {
     this.sidebar.appendChild(button)
 
     button.classList.add("sidebarhandle")
-    button.onclick = function () {
-      sidebar.classList.toggle("hidden")
+    button.onclick = () => {
+      this.sidebar.classList.toggle("hidden")
     }
 
-    const container = document.createElement("div")
-    container.classList.add("container")
-    this.sidebar.appendChild(container)
+    this.container = document.createElement("div")
+    this.container.classList.add("container")
+    this.sidebar.appendChild(this.container)
   }
 
   getWidth() {
