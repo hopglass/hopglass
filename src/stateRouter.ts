@@ -32,6 +32,11 @@ export class StateRouter implements DataSubscriber {
     constructor() {
         this.subscribers = [];
         this.views = [];
+        this.state = {
+            currentView: undefined,
+            selectedNode: undefined,
+            selectedLink: undefined,
+        };
     }
 
     start() {

@@ -125,4 +125,4 @@ gulp.task("clean", (cb) => {
 gulp.task("serve", serve("build"));
 
 gulp.task("dev", gulp.parallel("cssdev", "jsdev", "assets", "watch", "serve"));
-gulp.task("default", gulp.series("clean", gulp.parallel("jsdist", "cssdist")));
+gulp.task("default", gulp.series("clean", gulp.parallel("jsdist", "cssdist", "assets")));
