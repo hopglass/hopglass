@@ -1,13 +1,7 @@
-@import '../node_modules/roboto-fontface/css/roboto/sass/roboto-fontface-bold';
-@import '../node_modules/roboto-fontface/css/roboto/sass/roboto-fontface-regular';
-@import '../node_modules/roboto-fontface/css/roboto-slab/sass/roboto-slab-fontface-bold';
-@import '../node_modules/roboto-fontface/css/roboto-slab/sass/roboto-slab-fontface-regular';
-
 @import 'reset';
 @import 'shadow';
 @import 'base';
 @import 'filters';
-@import 'loader';
 
 $minscreenwidth: 630pt;
 $sidebarwidth: 420pt;
@@ -18,6 +12,8 @@ $buttondistance: 12pt;
 @import 'map';
 @import 'forcegraph';
 @import 'legend';
+@import 'fonts';
+@import '../node_modules/ol/ol';
 
 .content {
   position: fixed;
@@ -25,6 +21,7 @@ $buttondistance: 12pt;
   height: 100vh;
 
   .buttons {
+    overflow: visible;
     direction: rtl;
     unicode-bidi: bidi-override;
 
@@ -70,10 +67,10 @@ $buttondistance: 12pt;
   color: #dc0067;
 }
 
-body {
+:host {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto-Slab', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 11pt;
   color: #333;
 }

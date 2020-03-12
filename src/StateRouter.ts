@@ -1,16 +1,8 @@
-import {TemplateResult} from "lit-html";
-import {MeshNode, MeshLink, Data, DataSubscriber} from "./dataRouter";
+import {Data, DataSubscriber, MeshLink, MeshNode} from "./DataRouter";
+import {LitElement} from "lit-element";
 
-export abstract class View {
-    id: string;
-    stateRouter: StateRouter;
-    protected constructor(stateRouter) {
-        this.stateRouter = stateRouter;
-    }
-    toggleView() {
-        this.stateRouter.toggleView();
-    }
-    abstract template(): TemplateResult;
+export abstract class View extends LitElement {
+    readonly id: string;
 }
 
 export interface State {
@@ -20,7 +12,7 @@ export interface State {
 }
 
 export interface StateSubscriber {
-    setState(state: State),
+    setState(state: State): void,
 }
 
 export class StateRouter implements DataSubscriber {
@@ -48,7 +40,7 @@ export class StateRouter implements DataSubscriber {
         this.subscribers.push(sub);
     }
 
-    setData(data) {
+    setData(data: Data) {
         const firstData = !this.data;
         this.data = data;
         if (firstData) this.start();
@@ -58,7 +50,7 @@ export class StateRouter implements DataSubscriber {
         this.views.push(view);
     }
 
-    setState(newState) {
+    setState(newState: Partial<State>) {
         Object.assign(this.state, newState);
         for (let sub of this.subscribers) sub.setState(this.state);
         this.saveState();
@@ -71,10 +63,9 @@ export class StateRouter implements DataSubscriber {
         if (this.state.selectedNode)
             components.n = encodeURIComponent(this.state.selectedNode.nodeinfo.node_id);
         if (this.state.selectedLink)
-            components.l = encodeURIComponent(this.state.selectedLink.id);
-        const hash = "#!" + Object.entries(components).map(e => e.join(":")).join(";");
+            components.l = encodeURIComponent(this.state.selectedLink.getId());
         // window.history.pushState(hash, undefined, hash);
-        window.location.hash = hash;
+        window.location.hash = "#!" + Object.entries(components).map(e => e.join(":")).join(";");
     }
 
     hashChange() {
@@ -126,9 +117,7 @@ export class StateRouter implements DataSubscriber {
 
     toggleView() {
         const viewNum = this.views.indexOf(this.state.currentView);
-        console.log(viewNum);
         const newViewNum = (viewNum + 1) % this.views.length;
-        console.log(newViewNum);
         this.setState({
             currentView: this.views[newViewNum],
         });

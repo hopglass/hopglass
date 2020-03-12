@@ -1,14 +1,20 @@
 export interface DataSubscriber {
-    setData(data: any),
+    setData(data: Data): void,
 }
 
 export interface MeshNode {
-    nodeinfo: any;
+    nodeinfo: {
+        node_id: string;
+    };
     statistics: any;
 }
 
-export interface MeshLink {
-    id: string;
+export class MeshLink {
+    getId(): string {
+        return `${this.source.nodeinfo.node_id}-${this.target.nodeinfo.node_id}`;
+    }
+    source: MeshNode;
+    target: MeshNode;
 }
 
 export interface Data {
@@ -17,7 +23,7 @@ export interface Data {
 }
 
 export class DataRouter {
-    private subscribers: DataSubscriber[];
+    private readonly subscribers: DataSubscriber[];
     data: Data;
 
     constructor() {
@@ -28,7 +34,7 @@ export class DataRouter {
         this.subscribers.push(sub);
     }
 
-    setData(data) {
+    setData(data: Data) {
         this.data = data;
         for (let sub of this.subscribers) sub.setData(this.data);
     }

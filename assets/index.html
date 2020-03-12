@@ -8,13 +8,44 @@
     <link rel="prefetch" as="font" href="fonts/roboto/Roboto-Regular.woff2">
     <link rel="prefetch" as="font" href="fonts/roboto-slab/Roboto-Slab-Bold.woff2">
     <link rel="prefetch" as="font" href="fonts/roboto-slab/Roboto-Slab-Regular.woff2">
-    <link rel="stylesheet" href="main.css">
     <script async type="module" src="main.js"></script>
+    <style>
+      .loader {
+        color: #000000;
+        font-size: 1.8em;
+        line-height: 2;
+        text-align: center;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+      }
+
+      .spinner {
+        animation: .6s spinner ease-in-out infinite alternate;
+        border-bottom: 2px solid #000000;
+        border-radius: 50%;
+        display: inline-block;
+        height: 64px;
+        margin-top: 10px;
+        width: 64px;
+      }
+
+      @keyframes spinner {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
     <title>HopGlass</title>
   </head>
   <body>
-    <div class="content"></div>
-    <div class="sidebar"></div>
     <div class="loader">
       <p>
         Lade<br />

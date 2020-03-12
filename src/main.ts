@@ -1,7 +1,9 @@
-import App from "./app.js";
+import App from "./App";
 
 const main = async () => {
-    new App(await fetch("config.json").then(res => res.json())).run();
+    const configJSON = await fetch("config.json").then(res => res.json());
+    document.body.innerHTML = "";
+    document.body.appendChild(new App(configJSON));
 };
 
 main().catch(e => {
