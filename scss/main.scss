@@ -335,11 +335,6 @@ table {
   transition: left 0.5s, box-shadow 0.5s, color 0.5s, transform 0.5s;
 }
 
-.sidebarhandle:after {
-  padding-right: 0.125em;
-  content: "\f124";
-}
-
 .sidebar.hidden .sidebarhandle {
   transform: scale(-1, 1);
   left: $buttondistance;

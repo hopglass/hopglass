@@ -4,6 +4,8 @@ import {Data, DataSubscriber} from "../DataRouter";
 import {customElement, LitElement, property} from "lit-element";
 import styles from "../styles";
 import {classMap} from "lit-html/directives/class-map";
+import {chevronBack} from "ionicons/icons";
+import {unsafeHTML} from "lit-html/directives/unsafe-html";
 
 @customElement("hopglass-sidebar")
 export class Sidebar extends LitElement implements StateSubscriber, DataSubscriber {
@@ -21,7 +23,9 @@ export class Sidebar extends LitElement implements StateSubscriber, DataSubscrib
     render() {
         return html`
             <div class=${classMap({sidebar: true, hidden: !this.visible})}>
-                <button class="sidebarhandle" @click=${this.toggleVisibility}></button>
+                <button class="sidebarhandle" @click=${this.toggleVisibility}>
+<!--${unsafeHTML(`<img src="${chevronBack}">`)} -->
+</button>
                 <div class=${classMap({container: true, hide: !this.visible})}>
                     <h3>Nodes: ${this.nodeCount}</h3>
                 </div>

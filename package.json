@@ -6,9 +6,10 @@
     "dev": "npx gulp dev"
   },
   "dependencies": {
+    "ionicons": "^5.0.1",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
-    "ol": "^6.2.1",
+    "ol": "https://github.com/petabyteboy/openlayers#feature/es6-build",
     "rss-parser": "^3.7.5"
   },
   "devDependencies": {

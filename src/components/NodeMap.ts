@@ -20,8 +20,7 @@ export class NodeMap extends View implements DataSubscriber {
 
     connectedCallback(): void {
         super.connectedCallback();
-        setTimeout(() => {
-            if (this.olMap) this.olMap.dispose();
+        if (!this.olMap) setTimeout(() => {
             this.olMap = new OlMap({
                 target: <HTMLElement> this.shadowRoot.querySelector(".map"),
                 layers: [
