@@ -2806,7 +2806,7 @@ object.values@^1.1.0:
 
 "ol@https://github.com/petabyteboy/openlayers#feature/es6-build":
   version "6.2.2"
-  resolved "https://github.com/petabyteboy/openlayers#945702056d72e18292a1a63731a4c11fdd1b2ef5"
+  resolved "https://github.com/petabyteboy/openlayers#8eb8969c34cfdc13f4de6314ccf2010af9daba52"
   dependencies:
     elm-pep "^1.0.4"
     pbf "3.2.1"

@@ -47,11 +47,6 @@ const js = (production) => {
                 strict: true,
                 file: "main.min.js",
             },
-            onwarn: (warning, superOnWarn) => {
-                /* https://github.com/openlayers/openlayers/issues/10245 */
-                if (warning.code === 'THIS_IS_UNDEFINED') return;
-                superOnWarn(warning);
-            },
         })
             .on("bundle", (bundle) => {
                 cache = bundle;
