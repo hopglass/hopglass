@@ -6,6 +6,7 @@ import {NodeGraph} from "./components/NodeGraph";
 import {NodeMap} from "./components/NodeMap";
 import {html, customElement, LitElement} from "lit-element";
 import styles from "./styles";
+import {addProjection} from "ol/proj";
 
 @customElement("hopglass-app")
 export default class App extends LitElement implements DataSubscriber, StateSubscriber {

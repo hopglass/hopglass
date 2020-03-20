@@ -1,4 +1,5 @@
 @import 'reset';
+@import '../node_modules/ol/ol';
 @import 'shadow';
 @import 'base';
 @import 'filters';
@@ -13,7 +14,6 @@ $buttondistance: 12pt;
 @import 'forcegraph';
 @import 'legend';
 @import 'fonts';
-@import '../node_modules/ol/ol';
 
 .content {
   position: fixed;

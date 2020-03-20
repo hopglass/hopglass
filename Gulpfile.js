@@ -6,6 +6,7 @@ const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
 const buffer = require("vinyl-buffer");
 const {terser} = require("rollup-plugin-terser");
+const cjs = require("@rollup/plugin-commonjs");
 const typescript = require("@rollup/plugin-typescript");
 const resolve = require("@rollup/plugin-node-resolve");
 const fs = require("fs");
@@ -13,20 +14,21 @@ const del = require("del");
 const serve = require("gulp-serve");
 const litStyles = require("rollup-plugin-lit-styles");
 
-let cache;
+/*let cache;
 try {
     cache = require("./cache.json");
 } catch(e) {
     cache = {};
-}
+}*/
 
 const js = (production) => {
     return () => {
         return rollup({
             input: "src/main.ts",
-            cache,
+            //cache,
             plugins: [
                 resolve(),
+                cjs(),
                 litStyles({
                     postCssPlugins: [
                         autoprefixer(),
@@ -49,8 +51,8 @@ const js = (production) => {
             },
         })
             .on("bundle", (bundle) => {
-                cache = bundle;
-                fs.writeFile("./cache.json", JSON.stringify(cache), () => {});
+                //cache = bundle;
+                //fs.writeFile("./cache.json", JSON.stringify(cache), () => {});
             })
             .pipe(source("main.js"))
             .pipe(buffer())
@@ -71,7 +73,7 @@ gulp.task("assets", () => {
 gulp.task("watch", async () => {
     gulp.watch("./assets/**", gulp.parallel("assets"));
     gulp.watch("./src/**/*.ts", gulp.parallel("jsdev"));
-    gulp.watch("./scss/**/*.scss", gulp.parallel("cssdev"));
+    gulp.watch("./scss/**/*.scss", gulp.parallel("jsdev"));
 });
 
 gulp.task("clean", (cb) => {

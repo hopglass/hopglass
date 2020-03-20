@@ -4,7 +4,12 @@ export interface DataSubscriber {
 
 export interface MeshNode {
     nodeinfo: {
+        hostname: any;
         node_id: string;
+        location: {
+            latitude: number;
+            longitude: number;
+        };
     };
     statistics: any;
 }
