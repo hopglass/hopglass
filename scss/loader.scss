@@ -1,0 +1,33 @@
+.loader {
+  color: #000000;
+  font-size: 1.8em;
+  line-height: 2;
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  font-family: Roboto-Slab, serif;
+}
+
+.spinner {
+  animation: .6s spinner ease-in-out infinite alternate;
+  border-bottom: 2px solid #000000;
+  border-radius: 50%;
+  display: inline-block;
+  height: 64px;
+  margin-top: 10px;
+  width: 64px;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

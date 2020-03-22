@@ -1,8 +1,13 @@
+import {SimulationLinkDatum, SimulationNodeDatum} from "d3-force";
+
 export interface DataSubscriber {
     setData(data: Data): void,
 }
 
-export interface MeshNode {
+export class MeshNode implements SimulationNodeDatum {
+    flags: {
+        online: boolean;
+    }
     nodeinfo: {
         hostname: any;
         node_id: string;
@@ -12,14 +17,25 @@ export interface MeshNode {
         };
     };
     statistics: any;
+
+    /* d3 */
+    index?: number;
+    x?: number;
+    y?: number;
+    vx?: number;
+    vy?: number;
+    fx?: number | null;
+    fy?: number | null;
+    linkCount: number;
 }
 
-export class MeshLink {
+export class MeshLink implements SimulationLinkDatum<MeshNode> {
     getId(): string {
         return `${this.source.nodeinfo.node_id}-${this.target.nodeinfo.node_id}`;
     }
     source: MeshNode;
     target: MeshNode;
+    vpn: boolean;
 }
 
 export interface Data {

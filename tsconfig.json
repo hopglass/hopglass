@@ -6,6 +6,7 @@
     "importHelpers": true,
     "moduleResolution": "Node",
     "experimentalDecorators": true,
-    "target": "ES2017"
+    "target": "ES2017",
+    "noEmitOnError": false
   }
 }

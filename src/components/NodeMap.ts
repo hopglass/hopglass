@@ -5,37 +5,50 @@ import {Config} from "../Config";
 import styles from "../styles";
 import {median} from "d3-array";
 
-import {Map as OlMap, View as OlView, Feature} from "ol";
-import {Vector as VectorLayer, Tile as TileLayer} from "ol/layer";
-import {Vector as VectorSource, XYZ as XYZSource} from "ol/source";
+import Feature from "ol/Feature";
+import OlMap from "ol/Map";
+import OlView from "ol/View";
+import VectorLayer from "ol/layer/Vector";
+import TileLayer from "ol/layer/Tile";
+import VectorSource from "ol/source/Vector";
+import XYZSource from "ol/source/XYZ";
 import {addCommon, transform} from "ol/proj";
-import {Point, Geometry} from "ol/geom";
-import {Style, Text as TextStyle, Circle as CircleStyle, Fill, Stroke} from "ol/style";
+import Point from "ol/geom/Point";
+import Geometry from "ol/geom/Geometry";
+import Style from "ol/style/Style";
+import TextStyle from "ol/style/Text";
+import CircleStyle from "ol/style/Circle";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
 
 @customElement("hopglass-nodemap")
 export class NodeMap extends View implements DataSubscriber {
     id: string = "m";
-    olMap: OlMap;
-    config: Config;
+
+    private olMap: OlMap;
+    private config: Config;
     private data: Data;
     private readonly nodeFeatures: VectorSource<Geometry>;
+
+    private static readonly onlineNodeStyle = new CircleStyle( {
+        radius: 6,
+        fill: new Fill({ color: 'rgba(120, 180, 255, 0.9)', }),
+        stroke: new Stroke({ color: 'rgba(60, 90, 120, 1)', }),
+    });
+    private static readonly offlineNodeStyle = new CircleStyle( {
+        radius: 6,
+        fill: new Fill({ color: 'rgba(255, 90, 60, 0.9)', }),
+        stroke: new Stroke({ color: 'rgba(120, 90, 60, 1)', }),
+    });
     private nodeStyle = (feature: Feature<Geometry>) => new Style({
-         image: new CircleStyle( {
-             radius: 6,
-             fill: new Fill({
-                 color: 'rgba(120, 180, 255, 1)',
-             }),
-             stroke: new Stroke({
-                 color: 'rgba(60, 90, 120, 1)',
-             }),
-         }),
+         image: (<MeshNode> feature.get("node")).flags.online ? NodeMap.onlineNodeStyle : NodeMap.offlineNodeStyle,
     });
     private labelStyle = (feature: Feature<Geometry>) => new Style({
         text: new TextStyle({
             offsetY: -13,
-            text: feature.get("node").nodeinfo.hostname,
+            text: (<MeshNode> feature.get("node")).nodeinfo.hostname,
             fill: new Fill({
-                color: `rgba(0, 0, 0, 1)`,
+                color: 'rgba(0, 0, 0, 1)',
             }),
         }),
     });

@@ -4,7 +4,7 @@ import {StateRouter, StateSubscriber} from "./StateRouter";
 import {Sidebar} from "./components/Sidebar";
 import {NodeGraph} from "./components/NodeGraph";
 import {NodeMap} from "./components/NodeMap";
-import {html, customElement, LitElement} from "lit-element";
+import {html, customElement, LitElement, property} from "lit-element";
 import styles from "./styles";
 import {addProjection} from "ol/proj";
 
@@ -14,6 +14,7 @@ export default class App extends LitElement implements DataSubscriber, StateSubs
     private dataRouter: DataRouter;
     private readonly stateRouter: StateRouter;
     private sidebar: Sidebar;
+    @property() private ready = false;
 
     constructor(config: ConfigJSON) {
         super();
@@ -26,17 +27,17 @@ export default class App extends LitElement implements DataSubscriber, StateSubs
         this.dataRouter.subscribe(this);
         this.stateRouter.subscribe(this);
 
+        this.sidebar = new Sidebar();
+        this.stateRouter.subscribe(this.sidebar);
+        this.dataRouter.subscribe(this.sidebar);
+
         const nodeMap = new NodeMap(this.config);
         this.stateRouter.addView(nodeMap);
         this.dataRouter.subscribe(nodeMap);
 
-        const nodeGraph = new NodeGraph();
+        const nodeGraph = new NodeGraph(this.config, this.sidebar);
         this.stateRouter.addView(nodeGraph);
         this.dataRouter.subscribe(nodeGraph);
-
-        this.sidebar = new Sidebar();
-        this.stateRouter.subscribe(this.sidebar);
-        this.dataRouter.subscribe(this.sidebar);
 
         this.fetchData();
         setInterval(this.fetchData.bind(this), 60000);
@@ -57,30 +58,45 @@ export default class App extends LitElement implements DataSubscriber, StateSubs
                 linksArray = linksArray.concat(json.batadv.links.map((link: any) => {
                     link.source = json.batadv.nodes[link.source];
                     link.target = json.batadv.nodes[link.target];
+                    link.vpn = link.type === "l2tp" || link.type === "fastd";
                     return link;
                 }));
             }
         }
         for (let node of nodesArray) {
+            node.linkCount = 0;
             data.nodes[node.nodeinfo.node_id] = node;
         }
         for (let link of linksArray) {
             link.source = data.nodes[link.source.node_id];
             link.target = data.nodes[link.target.node_id];
-            data.links[link.source.node_id+"-"+link.target.node_id] = link;
+            link.source.linkCount++;
+            link.target.linkCount++;
+            data.links[link.source.nodeinfo.node_id+"-"+link.target.nodeinfo.node_id] = link;
         }
         this.dataRouter.setData(data);
+        this.ready = true;
     }
 
     render() {
         return html`
-            <div class="content">
-                <div class="buttons">
-                    <button @click=${this.stateRouter.toggleView.bind(this.stateRouter)}></button>
+            ${this.ready ? html`
+                <div class="content">
+                    <div class="buttons">
+                        <button @click=${this.stateRouter.toggleView.bind(this.stateRouter)}></button>
+                    </div>
+                    ${this.stateRouter.state.currentView}
                 </div>
-                ${this.stateRouter.state.currentView}
-            </div>
             ${this.sidebar}
+                ` : html`
+                <div class="loader">
+                  <p>
+                    Loading<br />
+                    <span class="spinner"></span><br />
+                    Data
+                  </p>
+                </div>
+            `}
         `;
     }
 

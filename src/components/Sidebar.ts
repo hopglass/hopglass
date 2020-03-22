@@ -10,6 +10,7 @@ import {unsafeHTML} from "lit-html/directives/unsafe-html";
 @customElement("hopglass-sidebar")
 export class Sidebar extends LitElement implements StateSubscriber, DataSubscriber {
     @property() nodeCount: Number;
+    @property() linkCount: Number;
     @property() visible = true;
 
     private static toggleSidebar(evt: MouseEvent) {
@@ -24,10 +25,11 @@ export class Sidebar extends LitElement implements StateSubscriber, DataSubscrib
         return html`
             <div class=${classMap({sidebar: true, hidden: !this.visible})}>
                 <button class="sidebarhandle" @click=${this.toggleVisibility}>
-<!--${unsafeHTML(`<img src="${chevronBack}">`)} -->
-</button>
+                    <!--${unsafeHTML(`<img src="${chevronBack}">`)} -->
+                </button>
                 <div class=${classMap({container: true, hide: !this.visible})}>
                     <h3>Nodes: ${this.nodeCount}</h3>
+                    <h3>Links: ${this.linkCount}</h3>
                 </div>
             </div>
         `;
@@ -39,6 +41,7 @@ export class Sidebar extends LitElement implements StateSubscriber, DataSubscrib
 
     setData(data: Data): void {
         this.nodeCount = data.nodes && Object.keys(data.nodes).length;
+        this.linkCount = data.links && Object.keys(data.links).length;
     }
 
     setState(_state: State): void {
@@ -46,5 +49,9 @@ export class Sidebar extends LitElement implements StateSubscriber, DataSubscrib
     
     static get styles() {
         return styles;
+    }
+
+    getWidth() {
+        return this.visible ? 160 : 0;
     }
 }

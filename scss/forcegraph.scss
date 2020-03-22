@@ -1,10 +1,17 @@
-.graph {
+.forcegraph {
   height: 100%;
   width: 100%;
   background: #2B2B2B;
 
-  canvas {
-    display: block;
-    position: absolute;
+  .node {
+    fill: #fff;
+    stroke: rgba(0, 0, 0, .4);
   }
-}  
+
+  .link {
+    stroke: green;
+  }
+  .vpnlink {
+    stroke: rgba(255, 255, 255, .2);
+  }
+}

@@ -13,6 +13,7 @@ const fs = require("fs");
 const del = require("del");
 const serve = require("gulp-serve");
 const litStyles = require("rollup-plugin-lit-styles");
+const alias = require("@rollup/plugin-alias");
 
 /*let cache;
 try {
@@ -28,7 +29,12 @@ const js = (production) => {
             //cache,
             plugins: [
                 resolve(),
-                cjs(),
+                alias({
+                    entries: [
+                        { find: 'ol', replacement: 'ol/src/ol', },
+                        { find: 'rbush/rbush.js', replacement: 'rbush', },
+                    ],
+                }),
                 litStyles({
                     postCssPlugins: [
                         autoprefixer(),
@@ -47,7 +53,7 @@ const js = (production) => {
                 sourceMap: true,
                 options: {format: "es"},
                 strict: true,
-                file: "main.min.js",
+                file: "main.js",
             },
         })
             .on("bundle", (bundle) => {
