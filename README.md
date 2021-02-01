@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hopglass/hopglass.svg?branch=master)](https://travis-ci.org/hopglass/hopglass)
+![Build app](https://github.com/hopglass/hopglass/workflows/Build%20app/badge.svg)
 
 # HopGlass
 
