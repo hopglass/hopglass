@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-  - "lts/*"
-  - "node"
-install:
-  - yarn
-script: node_modules/.bin/grunt
