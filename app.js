@@ -7,7 +7,7 @@ require.config({
     "chroma-js": "../node_modules/chroma-js/chroma.min",
     "moment": "../node_modules/moment/min/moment-with-locales.min",
     "tablesort": "../node_modules/tablesort/tablesort.min",
-    "tablesort.numeric": "../node_modules/tablesort/src/sorts/tablesort.numeric",
+    "tablesort.number": "../node_modules/tablesort/src/sorts/tablesort.number",
     "d3": "../node_modules/d3/d3.min",
     "numeral": "../node_modules/numeraljs/min/numeral.min",
     "numeral-intl": "../node_modules/numeraljs/min/languages.min",
@@ -26,7 +26,7 @@ require.config({
       deps: ["numeral"],
       exports: "numeral"
     },
-    "tablesort.numeric": ["tablesort"],
+    "tablesort.number": ["tablesort"],
     "helper": ["numeral-intl"]
   }
 })
