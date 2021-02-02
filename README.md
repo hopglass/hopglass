@@ -23,7 +23,8 @@ On Debian-like systems run:
 
     sudo apt-get install nodejs yarn
 
-**Note:** The official Debian packages for NodeJS are quite old, you might want to check at [NodeSource](https://github.com/nodesource/distributions/blob/master/README.md) for current binaries installable with your distribution's package manager.
+**Note:** The official Debian packages for NodeJS are quite old, you might want to check at [NodeSource](https://github.com/nodesource/distributions/blob/master/README.md) for current binaries installable with your distribution's package manager.  
+**Note2:** The `yarn` package is not in the current Debian repositories. Use the official sources: https://classic.yarnpkg.com/en/docs/install#debian-stable
 
 On Mac you can install nodejs and yarn via brew:
 
